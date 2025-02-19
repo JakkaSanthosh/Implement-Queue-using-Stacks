@@ -1,0 +1,54 @@
+import java.util.Stack;
+class MyQueue {
+    Stack<Integer> s1;  // Stack for enqueueing elements
+    Stack<Integer> s2;  // Stack for dequeueing elements
+    // Constructor to initialize the two stacks
+    public MyQueue() {
+        s1 = new Stack<>();
+        s2 = new Stack<>();
+    }
+    // Push an element to the queue
+    public void push(int x) {
+        // Push all elements from s1 to s2 to maintain the correct order
+        while (!s1.isEmpty()) {
+            s2.push(s1.pop());
+        }
+        // Push the new element to s1
+        s1.push(x);
+        // Push all elements from s2 back to s1 to maintain the correct order
+        while (!s2.isEmpty()) {
+            s1.push(s2.pop());
+        }
+    }
+    // Pop an element from the front of the queue
+    public int pop() {
+        // Return the top element of s1 (front of the queue)
+        return s1.pop();
+    }
+    // Peek the front element of the queue
+    public int peek() {
+        // Return the top element of s1 without removing it
+        return s1.peek();
+    }
+    // Check if the queue is empty
+    public boolean empty() {
+        // The queue is empty if s1 is empty
+        return s1.isEmpty();
+    }
+    public static void main(String[] args) {
+        MyQueue obj = new MyQueue();
+        // Test the push and pop functionality
+        obj.push(1);  // Queue: [1]
+        obj.push(2);  // Queue: [1, 2]
+        obj.push(3);  // Queue: [1, 2, 3]
+        System.out.println(obj.pop());    // 1 (removed from the front of the queue)
+        System.out.println(obj.peek());   // 2 (new front of the queue)
+        obj.push(4);  // Queue: [2, 3, 4]
+        System.out.println(obj.pop());    // 2 (removed from the front of the queue)
+        System.out.println(obj.peek());   // 3 (new front of the queue)
+        System.out.println(obj.empty());  // false (queue is not empty)
+        System.out.println(obj.pop());    // 3
+        System.out.println(obj.pop());    // 4
+        System.out.println(obj.empty());  // true (queue is empty)
+    }
+}
